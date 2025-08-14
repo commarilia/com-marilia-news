@@ -4,49 +4,69 @@ import { CategoryNavigation } from '@/components/CategoryNavigation';
 import { NewsCard } from '@/components/NewsCard';
 import { NewsModal } from '@/components/NewsModal';
 import { StoryModal } from '@/components/StoryModal';
-import { mockNews, mockStories } from '@/data/mockNews';
+import { useNews } from '@/hooks/use-news';
+import { fetchNewsById, fetchStoriesByCategory } from '@/integrations/supabase/news';
 import { NewsArticle, NewsCategory, Story } from '@/types/news';
+
 const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState<NewsCategory>('marilia');
   const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(null);
   const [selectedStory, setSelectedStory] = useState<Story | null>(null);
   const [isNewsModalOpen, setIsNewsModalOpen] = useState(false);
   const [isStoryModalOpen, setIsStoryModalOpen] = useState(false);
+
+  const newsQuery = useNews(selectedCategory);
+
   const handleNewsSelect = (article: NewsArticle) => {
     setSelectedArticle(article);
     setIsNewsModalOpen(true);
   };
-  const handleStorySelect = (category: NewsCategory) => {
-    const story = mockStories.find(s => s.category === category);
+
+  const handleStorySelect = async (category: NewsCategory) => {
+    const story = await fetchStoriesByCategory(category);
     if (story) {
       setSelectedStory(story);
       setIsStoryModalOpen(true);
     }
   };
-  const handleNewsFromStory = (newsId: string) => {
-    const article = mockNews.find(n => n.id === newsId);
+
+  const handleNewsFromStory = async (newsId: string) => {
+    const article = newsQuery.data?.find(n => n.id === newsId) || await fetchNewsById(newsId);
     if (article) {
       handleNewsSelect(article);
     }
   };
-  const filteredNews = selectedCategory ? mockNews.filter(article => article.category === selectedCategory) : mockNews;
-  return <div className="min-h-screen bg-slate-50">
+
+  return (
+    <div className="min-h-screen bg-slate-50">
       <div className="max-w-md mx-auto bg-background-alt shadow-lg min-h-screen">
         <Header />
-        
-        <CategoryNavigation onCategorySelect={category => {
-        setSelectedCategory(category);
-        handleStorySelect(category);
-      }} selectedCategory={selectedCategory} />
-        
+
+        <CategoryNavigation
+          onCategorySelect={category => {
+            setSelectedCategory(category);
+            handleStorySelect(category);
+          }}
+          selectedCategory={selectedCategory}
+        />
+
         <main className="p-4 space-y-4">
-          {filteredNews.map(article => <NewsCard key={article.id} article={article} onClick={() => handleNewsSelect(article)} />)}
+          {newsQuery.data?.map(article => (
+            <NewsCard key={article.id} article={article} onClick={() => handleNewsSelect(article)} />
+          ))}
         </main>
 
         <NewsModal article={selectedArticle} isOpen={isNewsModalOpen} onClose={() => setIsNewsModalOpen(false)} />
 
-        <StoryModal story={selectedStory} isOpen={isStoryModalOpen} onClose={() => setIsStoryModalOpen(false)} onNewsSelect={handleNewsFromStory} />
+        <StoryModal
+          story={selectedStory}
+          isOpen={isStoryModalOpen}
+          onClose={() => setIsStoryModalOpen(false)}
+          onNewsSelect={handleNewsFromStory}
+        />
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default Index;
