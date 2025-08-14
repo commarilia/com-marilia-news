@@ -1,58 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* ComMarília Design System - Colors, gradients, fonts, etc */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Background system */
+    --background: 248 249 250;
+    --background-alt: 0 0% 100%;
+    --foreground: 0 0% 0%;
 
+    /* News Portal Brand Colors */
+    --primary: 219 82% 55%; /* Blue-600 for ComMarília brand */
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 219 82% 45%;
+
+    /* Category gradients */
+    --gradient-marilia: linear-gradient(135deg, hsl(219 82% 55%), hsl(219 82% 65%));
+    --gradient-regiao: linear-gradient(135deg, hsl(24 95% 53%), hsl(45 93% 47%));
+    --gradient-brasil: linear-gradient(135deg, hsl(142 71% 45%), hsl(142 71% 55%));
+    --gradient-mundo: linear-gradient(135deg, hsl(210 40% 60%), hsl(210 40% 70%));
+    --gradient-entretenimento: linear-gradient(135deg, hsl(284 81% 51%), hsl(328 86% 70%));
+    --gradient-esporte: linear-gradient(135deg, hsl(0 84% 60%), hsl(14 91% 43%));
+
+    /* Card system */
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 0%;
+    --card-border: 220 13% 91%;
+    --card-shadow: 0 4px 6px -1px hsl(220 13% 91% / 0.1), 0 2px 4px -1px hsl(220 13% 91% / 0.06);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Text colors */
+    --text-primary: 0 0% 0%;
+    --text-secondary: 107 3% 50%;
+    --text-muted: 215 16% 47%;
+    --text-category: 219 82% 55%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Interactive states */
+    --accent: 210 40% 96%;
+    --accent-foreground: 0 0% 0%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Modal and overlay */
+    --overlay: 0 0% 0% / 0.5;
+    --backdrop-blur: blur(4px);
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Borders and inputs */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 219 82% 55%;
+    --radius: 0.75rem;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Action buttons (like, share, save) */
+    --action-bg: 0 0% 100% / 0.8;
+    --action-hover-like: 0 84% 60%;
+    --action-hover-share: 219 82% 55%;
+    --action-hover-save: 142 71% 45%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Story progress */
+    --story-progress: 0 0% 100%;
+    --story-progress-bg: 0 0% 100% / 0.3;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Shadows and effects */
+    --shadow-sm: 0 1px 2px 0 hsl(0 0% 0% / 0.05);
+    --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.1), 0 2px 4px -2px hsl(0 0% 0% / 0.1);
+    --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.1), 0 4px 6px -2px hsl(0 0% 0% / 0.05);
+    
+    /* Animation timings */
+    --animation-fast: 150ms ease-out;
+    --animation-normal: 300ms ease-out;
+    --animation-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
@@ -101,5 +121,61 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+@layer utilities {
+  /* Custom utility classes */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .text-ellipsis-3-lines {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .backdrop-blur-custom {
+    backdrop-filter: var(--backdrop-blur);
+  }
+
+  .transition-smooth {
+    transition: var(--animation-normal);
+  }
+
+  .transition-slow {
+    transition: var(--animation-slow);
+  }
+
+  /* Category gradient backgrounds */
+  .bg-gradient-marilia {
+    background: var(--gradient-marilia);
+  }
+  .bg-gradient-regiao {
+    background: var(--gradient-regiao);
+  }
+  .bg-gradient-brasil {
+    background: var(--gradient-brasil);
+  }
+  .bg-gradient-mundo {
+    background: var(--gradient-mundo);
+  }
+  .bg-gradient-entretenimento {
+    background: var(--gradient-entretenimento);
+  }
+  .bg-gradient-esporte {
+    background: var(--gradient-esporte);
+  }
+
+  /* Story overlay gradient */
+  .story-overlay-gradient {
+    background: linear-gradient(to top, hsl(0 0% 0% / 0.7), transparent);
   }
 }
