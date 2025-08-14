@@ -42,14 +42,14 @@ export const NewsModal = ({ article, isOpen, onClose }: NewsModalProps) => {
   };
 
   return (
-    <div 
-      className="fixed inset-0 bg-overlay z-50 transition-opacity duration-500"
-      onClick={onClose}
-    >
-      <div 
-        className="absolute bottom-0 left-0 right-0 bg-background-alt rounded-t-2xl shadow-2xl max-w-md mx-auto h-[95vh] transition-transform duration-500 ease-out"
-        onClick={(e) => e.stopPropagation()}
+      <div
+        className="fixed inset-0 bg-overlay z-50 animate-in fade-in duration-500"
+        onClick={onClose}
       >
+        <div
+          className="absolute bottom-0 left-0 right-0 bg-background-alt rounded-t-2xl shadow-2xl max-w-md mx-auto h-[95vh] animate-in slide-in-from-bottom duration-500 ease-out"
+          onClick={(e) => e.stopPropagation()}
+        >
         <button 
           onClick={onClose}
           className="absolute top-4 right-4 text-text-secondary bg-gray-200 rounded-full p-1 hover:bg-gray-300 transition-colors z-30"
