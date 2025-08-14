@@ -5,7 +5,7 @@ import { NewsCard } from '@/components/NewsCard';
 import { NewsModal } from '@/components/NewsModal';
 import { StoryModal } from '@/components/StoryModal';
 import { useNews } from '@/hooks/use-news';
-import { fetchNewsById, fetchStoriesByCategory } from '@/integrations/supabase/news';
+import { fetchNewsById, fetchStoriesByCategory } from '@/integrations/firebase/news';
 import { NewsArticle, NewsCategory, Story } from '@/types/news';
 
 const Index = () => {
